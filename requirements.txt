@@ -1,0 +1,19 @@
+# Dependencias del proyecto EcoTech
+# Instalar con: pip install -r requirements.txt
+
+# Conexion a MySQL / MariaDB
+PyMySQL>=1.1,<2
+
+# Lectura de variables de entorno desde el archivo .env
+python-dotenv>=1.0,<2
+
+# Consumo de las APIs externas (clima y paises)
+requests>=2.31,<3
+
+
+# Seguridad:
+
+# DESCOMENTAR DESPUES DE LA IMPLEMENTACION!!! 
+
+# bcrypt>=4.1,<6          # hash de contraseñas
+# cryptography>=42,<50    # cifrado de datos sensibles (salario, telefono, direccion)
