@@ -8,6 +8,7 @@
 --
 -- Para empezar de cero, descomenta la siguiente linea (BORRA todos los datos):
 -- DROP DATABASE IF EXISTS ecotech;
+
 -- =====================================================================
 
 CREATE DATABASE IF NOT EXISTS ecotech CHARACTER SET utf8mb4;

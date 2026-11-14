@@ -1,15 +1,14 @@
-# script para hashear passwords y gestionar seguridad
-import hashlib 
-import hmac 
-import secrets 
+import hashlib
+import hmac
+import secrets
 
-class PasswordService: 
-    """Hash de contraseñas con PBKDF2. Las contraseñas no se cifran ni se guardan en texto plano. """
+class PasswordService:
+    """Hash de contraseñas con PBKDF2. Las contraseñas no se cifran ni se guardan en texto plano."""
     ITERACIONES = 600_000
     ALGORITMO = "pbkdf2_sha256"
 
     def generar_hash(self, password):
-        if not isinstance(password, str) or len (password) < 8 : 
+        if not isinstance(password, str) or len(password) < 8:
             raise ValueError("La contraseña debe tener al menos 8 caracteres.")
         salt = secrets.token_bytes(16)
         digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, self.ITERACIONES)
@@ -24,6 +23,3 @@ class PasswordService:
             return hmac.compare_digest(calculado.hex(), digest_hex)
         except (ValueError, TypeError, AttributeError):
             return False
-
-
-
