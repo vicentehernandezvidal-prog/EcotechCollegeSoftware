@@ -1,25 +1,47 @@
-# Software para Ecotech Solutions
+# EcoTech Solutions — versión migrada (ES3)
 
-## Descripción
+Proyecto académico de consola desarrollado en Python y MySQL. Esta versión traslada las entidades, repositorios y menús del proyecto anterior a una estructura modular y agrega autenticación, validación, manejo de errores y consumo de dos servicios externos.
 
-Durante las ultimas entregas se realizó el desarrollo de un software para la empresa "EcoTech", esta necesito el diseño de un diagrama de clases basado en la programación orientada a objetos y posteriormente el desarrollo de un software con una base de datos funcional para almacenar la gestion de los departamentos planteados.
+## Estructura
 
-Para la presente entrega, se requiere de la implementacion de 2 API externas que permitan:
-- Obtener información climatologica
-- Obtener información de diversas divisas extranjeras y locales
+- `entidades/`: clases del dominio y herencia de Usuario.
+- `repositorios/`: operaciones SQL parametrizadas.
+- `database/`: conexión y esquema MySQL.
+- `seguridad/`: hash de contraseñas mediante PBKDF2-HMAC-SHA256.
+- `servicios/`: autenticación, clima y divisas.
+- `menus/`: interacción por consola.
 
-Ademas, se requieren implementaciones de mecanismos basicos de seguridad y manejo de errores y exepciones.   
+## Requisitos
 
-Para la presente entrega se realizo una re estructuracion del software, se reviso por completo y se hicieron algunas correciones, aspectos que no estan incluidos en la rubrica ni son imperativos para la entrega, pero dada la naturaleza academica del proyecto, se decidio dedicar tiempo a la revision. 
+- Python 3.10 o superior.
+- MySQL/MariaDB (por ejemplo, XAMPP).
 
+## Instalación
 
-## Objetivo
+1. Crear un entorno virtual: `python -m venv .venv`
+2. Activarlo.
+3. Instalar dependencias: `pip install -r requirements.txt`
+4. Copiar `.env.example` a `.env` y configurar las credenciales locales de MySQL.
+5. Importar `database/schema.sql` desde phpMyAdmin o MySQL.
+6. Ejecutar `python main.py`.
 
-- Implementar exitosamente las API pedidas para el proyecto
-- Implementar exitosamente los mecanismos de seguridad solicitados
-- Implementar exitosamente el manejo de erorres y excepciones
-- Transparentar apoyo y uso de inteligencia artificial durante el desarrollo de la entrega
+La primera ejecución permite crear el primer administrador. Los usuarios empleados también pueden iniciar sesión; el registro, modificación y eliminación de cuentas y la gestión de informes quedan reservados al rol administrador. Las contraseñas se almacenan como hash con sal individual; no se guardan en texto plano.
 
+## APIs
 
+- Clima: Open-Meteo (geocodificación y condiciones actuales).
+- Divisas: DolarAPI Chile (`https://cl.dolarapi.com/v1/cotizaciones`).
 
+Ambas consultas usan `requests`, timeout, validación básica y control de errores HTTP/conexión.
 
+## Referencias técnicas de las APIs
+
+- Open-Meteo: https://open-meteo.com/en/docs
+- DolarAPI Chile: https://dolarapi.com/docs/chile/operations/get-cotizaciones
+
+## Consideraciones
+
+- `.env` está excluido de Git. Nunca subas credenciales reales.
+- El esquema SQL está basado en la nueva estructura entregada en `VHERNANDEZ`.
+- Esta es una base de migración académica. Antes de usarla como entrega final, ejecuta pruebas con una base de datos de prueba y revisa cada decisión técnica.
+- Los datos sensibles adicionales del empleado tienen columnas preparadas en el esquema, pero esta versión no implementa todavía el cifrado de dirección, teléfono o salario.
