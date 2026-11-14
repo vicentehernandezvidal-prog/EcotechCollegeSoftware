@@ -41,7 +41,6 @@ Ambas consultas usan `requests`, timeout, validación básica y control de error
 
 ## Consideraciones
 
-- `.env` está excluido de Git. Nunca subas credenciales reales.
-- El esquema SQL está basado en la nueva estructura entregada en `VHERNANDEZ`.
-- Esta es una base de migración académica. Antes de usarla como entrega final, ejecuta pruebas con una base de datos de prueba y revisa cada decisión técnica.
+- `.env` está excluido de Git. 
+- Esta es una base de migración académica. 
 - Los datos sensibles adicionales del empleado tienen columnas preparadas en el esquema, pero esta versión no implementa todavía el cifrado de dirección, teléfono o salario.
