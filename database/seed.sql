@@ -9,16 +9,15 @@
 -- IMPORTANTE - SEGURIDAD:
 --   1) No se insertan datos personales sensibles en texto plano.
 --      Las columnas direccion_cifrada, telefono_cifrado y salario_cifrado
---      quedan en NULL porque el proyecto entregado no define/implementa
---      un algoritmo ni una clave de cifrado verificable.
---   2) hash_password recibe SHA-256 de una contraseña de prueba mediante
---      la función de MySQL. Esto NO es bcrypt ni reemplaza un hash seguro
---      de producción. El código entregado tampoco implementa aún la
---      verificación de contraseñas (bcrypt aparece comentado en requirements).
---      Si la aplicación verifica con bcrypt, estos usuarios no podrán
---      autenticarse hasta generar los hashes con bcrypt desde Python.
+--      quedan en NULL porque el proyecto aun no implementa cifrado.
+--   2) hash_password usa el formato de seguridad/password_service.py:
+--      pbkdf2_sha256$<iteraciones>$<salt_hex>$<digest_hex>
+--      (PBKDF2-HMAC-SHA256, 600.000 iteraciones, sal individual por usuario).
+--      Se guarda como texto ASCII en la columna VARBINARY, igual que lo
+--      hace AuthService al registrar cuentas, por lo que el login funciona.
 --
--- Credencial de prueba asociada al hash SHA-256: EcoTech2026!
+-- Credencial de prueba de TODOS los usuarios: EcoTech2026!
+-- Usuarios de ejemplo: admin.sistema (ADMINISTRADOR), carlos.rojas (EMPLEADO)
 -- No reutilizar esta contraseña fuera de esta base de datos de pruebas.
 --
 -- Ejecutar después de crear la estructura con database/schema.sql.
@@ -36,18 +35,18 @@ START TRANSACTION;
 INSERT INTO USUARIO
     (id_usuario, nombre_usuario, hash_password, correo, rol)
 VALUES
-    (1,  'admin.sistema', UNHEX(SHA2('EcoTech2026!', 256)), 'admin.sistema@ecotech.test', 'ADMINISTRADOR'),
-    (2,  'admin.proyectos', UNHEX(SHA2('EcoTech2026!', 256)), 'admin.proyectos@ecotech.test', 'ADMINISTRADOR'),
-    (3,  'carlos.rojas', UNHEX(SHA2('EcoTech2026!', 256)), 'carlos.rojas@ecotech.test', 'EMPLEADO'),
-    (4,  'andrea.munoz', UNHEX(SHA2('EcoTech2026!', 256)), 'andrea.munoz@ecotech.test', 'EMPLEADO'),
-    (5,  'diego.torres', UNHEX(SHA2('EcoTech2026!', 256)), 'diego.torres@ecotech.test', 'EMPLEADO'),
-    (6,  'camila.soto', UNHEX(SHA2('EcoTech2026!', 256)), 'camila.soto@ecotech.test', 'EMPLEADO'),
-    (7,  'felipe.contreras', UNHEX(SHA2('EcoTech2026!', 256)), 'felipe.contreras@ecotech.test', 'EMPLEADO'),
-    (8,  'valentina.diaz', UNHEX(SHA2('EcoTech2026!', 256)), 'valentina.diaz@ecotech.test', 'EMPLEADO'),
-    (9,  'matias.fuentes', UNHEX(SHA2('EcoTech2026!', 256)), 'matias.fuentes@ecotech.test', 'EMPLEADO'),
-    (10, 'sofia.morales', UNHEX(SHA2('EcoTech2026!', 256)), 'sofia.morales@ecotech.test', 'EMPLEADO'),
-    (11, 'tomas.castillo', UNHEX(SHA2('EcoTech2026!', 256)), 'tomas.castillo@ecotech.test', 'EMPLEADO'),
-    (12, 'isidora.vega', UNHEX(SHA2('EcoTech2026!', 256)), 'isidora.vega@ecotech.test', 'EMPLEADO');
+    (1,  'admin.sistema', 'pbkdf2_sha256$600000$8d079a803ffd29fcbb5d96fa47cc87fc$c624c6128df35d774c4aafee9c4fc344bb55a073c340a5ebe0436d6e89acd345', 'admin.sistema@ecotech.test', 'ADMINISTRADOR'),
+    (2,  'admin.proyectos', 'pbkdf2_sha256$600000$67b5ac3d865d5a523918261f13223ee4$644c6ba344e0b4d87c769d46d27ce8567a54bd3eb8cea35ec075b75d26b111f2', 'admin.proyectos@ecotech.test', 'ADMINISTRADOR'),
+    (3,  'carlos.rojas', 'pbkdf2_sha256$600000$48624f28ddc1a1065a323bcc77e5aec6$2b736d6b0e2d4656bb41e07da5ae5799e9aae9b7dd2b670f133a3e297e46afb2', 'carlos.rojas@ecotech.test', 'EMPLEADO'),
+    (4,  'andrea.munoz', 'pbkdf2_sha256$600000$c13945c9bfafb5a0376f60035f35628e$f4fb8286f97721151b7ade75527fd38d903c61ad27dd8f3cfcb4ea2652b4ed25', 'andrea.munoz@ecotech.test', 'EMPLEADO'),
+    (5,  'diego.torres', 'pbkdf2_sha256$600000$4dc2310534f004fc6fa3944b7bfd66d3$0ad24d2d96270d3f46f22a48aeac9f4534ae48709cc4da0d9543248ccd0af445', 'diego.torres@ecotech.test', 'EMPLEADO'),
+    (6,  'camila.soto', 'pbkdf2_sha256$600000$d92719ea075661c2da3cbe4bff9b2962$58544e0b7246a1e7ab837dd796569932e447e0008d747f3793f3303dde90e57e', 'camila.soto@ecotech.test', 'EMPLEADO'),
+    (7,  'felipe.contreras', 'pbkdf2_sha256$600000$87d6a799049de0be10aa67111cf8d6fb$51055d6f9bcc10e83d78c04675645d816029f7617c97a75083c12b75fb511558', 'felipe.contreras@ecotech.test', 'EMPLEADO'),
+    (8,  'valentina.diaz', 'pbkdf2_sha256$600000$d346c8f526bfec14027b3153b553af24$3083c5c0252543cac20a5ca93801b5646f5ecb511c2868b510db88270d859b30', 'valentina.diaz@ecotech.test', 'EMPLEADO'),
+    (9,  'matias.fuentes', 'pbkdf2_sha256$600000$b81e055e1968d38601f342079a1d8206$81249adf0b985cb8c2b0a132b129e05a2a95025a5a11868ce0dacdf9dbed110a', 'matias.fuentes@ecotech.test', 'EMPLEADO'),
+    (10, 'sofia.morales', 'pbkdf2_sha256$600000$3d9fd5d32b7ecb015e767465c674400f$d3756cda8a4d89e13b1c69ab71765f469e404e195923244c4f88ac889f8b2cac', 'sofia.morales@ecotech.test', 'EMPLEADO'),
+    (11, 'tomas.castillo', 'pbkdf2_sha256$600000$04e80b820f8e6adb89f2a01baa13d8d3$1b01e758a32b93bccd929b43b9495fe391d543d2a40c571bc75279f2b518d9d2', 'tomas.castillo@ecotech.test', 'EMPLEADO'),
+    (12, 'isidora.vega', 'pbkdf2_sha256$600000$4c96c7d44b2ba19307d755e33bcac76e$302447b5ee53f6d0c488db0578d9ccaee571851b86e96f0a5e63634e894e116d', 'isidora.vega@ecotech.test', 'EMPLEADO');
 
 -- ---------------------------------------------------------------------
 -- 2. DEPARTAMENTO: gerente queda NULL temporalmente por la FK circular
