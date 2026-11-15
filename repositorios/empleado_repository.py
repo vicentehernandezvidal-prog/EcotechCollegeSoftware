@@ -1,5 +1,4 @@
 from repositorios.base_repository import BaseRepository
-
 class EmpleadoRepository(BaseRepository):
     def crear_perfil(self, rut, id_usuario, id_departamento, primer_nombre, primer_apellido):
         sql = "INSERT INTO EMPLEADO (rut,id_usuario,id_departamento,primer_nombre,primer_apellido,inicio_contrato) VALUES (%s,%s,%s,%s,%s,CURDATE())"
@@ -41,3 +40,18 @@ class EmpleadoRepository(BaseRepository):
         except pymysql.MySQLError:
             conexion.rollback(); print("[ERROR] No se pudo eliminar el empleado. Puede tener registros relacionados."); return False
         finally: conexion.close()
+
+
+
+# ----------------PARA EL CIFRADO DE LOS DATOS SEGUN LA BD
+
+    def guardar_datos_sensibles(self, id_empleado, direccion_cif, telefono_cif, salario_cif):
+        sql = "UPDATE EMPLEADO SET direccion_cifrada=%s, telefono_cifrado=%s, salario_cifrado=%s WHERE id_empleado=%s"
+        return self._ejecutar(sql, (direccion_cif, telefono_cif, salario_cif, id_empleado))
+
+
+
+    def obtener_datos_sensibles(self, id_empleado):
+        sql = "SELECT direccion_cifrada, telefono_cifrado, salario_cifrado FROM EMPLEADO WHERE id_empleado=%s"
+        filas = self._ejecutar(sql, (id_empleado,), fetch=True)
+        return filas[0] if filas else None
