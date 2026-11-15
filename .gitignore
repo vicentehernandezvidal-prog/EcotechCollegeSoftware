@@ -7,6 +7,7 @@ venv/
 # Credenciales: NUNCA subir el .env real
 .env
 .env.*
+test01.sessions.sql
 !.env.example
 
 # Editor y sistema operativo
