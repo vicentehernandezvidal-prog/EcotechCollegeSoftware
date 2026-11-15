@@ -2,7 +2,7 @@
 
 Proyecto académico de consola desarrollado en Python y MySQL. Esta versión traslada las entidades, repositorios y menús del proyecto anterior a una estructura modular y agrega autenticación, validación, manejo de errores y consumo de dos servicios externos.
 
-## Estructura
+## Estructura (QUEDA POR ACTUALIZAR)
 
 - `entidades/`: clases del dominio y herencia de Usuario.
 - `repositorios/`: operaciones SQL parametrizadas.
