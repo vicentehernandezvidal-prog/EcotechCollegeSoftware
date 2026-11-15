@@ -12,6 +12,7 @@ from menus.gestionar_registro_tiempo import gestionar_registro_tiempos
 from menus.gestionar_informes import gestionar_informes
 from menus.gestionar_apis import gestionar_apis
 from menus.gestionar_administradores import gestionar_administradores
+from menus.gestionar_datos_sensibles import gestionar_datos_sensibles
 
 
 def crear_administrador_inicial(auth):
@@ -76,7 +77,8 @@ def menu_principal(usuario):
         print("8. Actualizar empleado")
         print("9. Eliminar empleado")
         print("10. Gestionar administradores")
-        print("11. Cerrar sesión")
+        print("11. Datos sensibles de empleados")
+        print("12. Cerrar sesión")
         op = input("> ").strip()
         if op == "1":
             if usuario["rol"] != "ADMINISTRADOR":
@@ -118,7 +120,12 @@ def menu_principal(usuario):
         elif op == "10":
             if usuario["rol"] == "ADMINISTRADOR": gestionar_administradores(usuario["id_usuario"])
             else: print("Solo un administrador puede gestionar administradores.")
-        elif op == "11": return
+        
+        elif op == "11":
+            if usuario["rol"] == "ADMINISTRADOR": gestionar_datos_sensibles()
+            else: print("Solo un administrador puede gestionar datos sensibles.")
+        
+        elif op == "12": return
         else: print("Opción no válida.")
 
 
