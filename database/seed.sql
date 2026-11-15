@@ -126,3 +126,65 @@ VALUES
     (10, 3, '2025-07-20');
 
 -- ---------------------------------------------------------------------
+-- 7. REGISTRO_TIEMPO: mezcla de pendientes, aprobados y rechazados
+-- ---------------------------------------------------------------------
+INSERT INTO REGISTRO_TIEMPO
+    (id_registro, id_empleado, id_proyecto, fecha, horas,
+     descripcion_tarea, estado_validacion)
+VALUES
+    (1,  1, 1, '2026-10-05', 8.00, 'Revision de requerimientos tecnicos del sistema solar.', 'APROBADO'),
+    (2,  1, 5, '2026-10-06', 6.50, 'Diseno de estructura inicial para la plataforma de datos.', 'APROBADO'),
+    (3,  2, 1, '2026-10-06', 7.50, 'Preparacion de documentacion de instalacion.', 'APROBADO'),
+    (4,  2, 5, '2026-10-07', 4.00, 'Validacion de datos recibidos desde sensores.', 'PENDIENTE'),
+    (5,  3, 2, '2026-10-05', 8.00, 'Inspeccion de terreno para evaluacion eolica.', 'APROBADO'),
+    (6,  3, 3, '2026-10-07', 5.00, 'Analisis de mediciones de caudal.', 'APROBADO'),
+    (7,  4, 2, '2026-10-08', 6.00, 'Procesamiento de datos de viento.', 'PENDIENTE'),
+    (8,  4, 3, '2026-10-09', 7.00, 'Pruebas de calibracion de sensores de agua.', 'APROBADO'),
+    (9,  5, 1, '2026-10-06', 8.00, 'Supervision de instalacion de paneles.', 'APROBADO'),
+    (10, 5, 4, '2026-10-08', 3.50, 'Inspeccion de consumo energetico del edificio.', 'RECHAZADO'),
+    (11, 6, 2, '2026-10-09', 7.50, 'Registro de condiciones ambientales del sitio.', 'APROBADO'),
+    (12, 6, 4, '2026-10-10', 6.00, 'Levantamiento de informacion electrica.', 'PENDIENTE'),
+    (13, 7, 5, '2026-10-13', 8.00, 'Implementacion de modulo de importacion de datos.', 'APROBADO'),
+    (14, 7, 1, '2026-10-14', 4.50, 'Analisis de rendimiento de paneles.', 'PENDIENTE'),
+    (15, 8, 4, '2026-10-13', 7.00, 'Revision de presupuesto y costos operacionales.', 'APROBADO'),
+    (16, 9, 4, '2026-10-14', 5.50, 'Preparacion de informe de auditoria energetica.', 'APROBADO'),
+    (17, 9, 5, '2026-10-15', 4.00, 'Revision de indicadores consolidados.', 'PENDIENTE'),
+    (18, 10, 3, '2026-10-14', 8.00, 'Analisis de calidad de muestras de agua.', 'APROBADO'),
+    (19, 1, 5, '2026-10-20', 2.00, 'Correccion de errores en el procesamiento de datos.', 'RECHAZADO'),
+    (20, 2, 1, '2026-10-21', 5.00, 'Actualizacion de registro de mantenimiento.', 'PENDIENTE'),
+    (21, 3, 2, '2026-10-22', 7.00, 'Evaluacion de resultados de medicion.', 'APROBADO'),
+    (22, 5, 4, '2026-10-23', 8.00, 'Verificacion de equipos de monitoreo.', 'PENDIENTE'),
+    (23, 7, 5, '2026-10-26', 6.00, 'Pruebas de integracion del modulo ambiental.', 'APROBADO'),
+    (24, 8, 4, '2026-10-27', 3.00, 'Revision de gastos asociados al proyecto.', 'PENDIENTE'),
+    (25, 10, 3, '2026-10-28', 4.50, 'Documentacion de resultados de laboratorio.', 'RECHAZADO');
+
+-- ---------------------------------------------------------------------
+-- 8. INFORME: informes emitidos por los dos administradores
+-- ---------------------------------------------------------------------
+INSERT INTO INFORME
+    (id_informe, id_admin, tipo_contenido, formato, fecha_generacion)
+VALUES
+    (1, 1, 'Resumen de empleados y departamentos', 'PDF',   '2026-10-15 09:30:00'),
+    (2, 1, 'Registros de tiempo pendientes',       'EXCEL', '2026-10-20 11:15:00'),
+    (3, 2, 'Estado general de proyectos',          'PDF',   '2026-10-25 16:45:00'),
+    (4, 2, 'Horas trabajadas por proyecto',        'EXCEL', '2026-10-30 14:00:00');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------
+-- CONSULTAS DE COMPROBACION
+-- ---------------------------------------------------------------------
+SELECT 'USUARIO' AS tabla, COUNT(*) AS registros FROM USUARIO
+UNION ALL SELECT 'DEPARTAMENTO', COUNT(*) FROM DEPARTAMENTO
+UNION ALL SELECT 'EMPLEADO', COUNT(*) FROM EMPLEADO
+UNION ALL SELECT 'ADMINISTRADOR', COUNT(*) FROM ADMINISTRADOR
+UNION ALL SELECT 'PROYECTO', COUNT(*) FROM PROYECTO
+UNION ALL SELECT 'ASIGNACION_PROYECTO', COUNT(*) FROM ASIGNACION_PROYECTO
+UNION ALL SELECT 'REGISTRO_TIEMPO', COUNT(*) FROM REGISTRO_TIEMPO
+UNION ALL SELECT 'INFORME', COUNT(*) FROM INFORME;
+
+-- Distribucion de registros por estado de validacion.
+SELECT estado_validacion, COUNT(*) AS cantidad
+FROM REGISTRO_TIEMPO
+GROUP BY estado_validacion
+ORDER BY estado_validacion;
