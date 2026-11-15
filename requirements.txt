@@ -11,9 +11,7 @@ python-dotenv>=1.0,<2
 requests>=2.31,<3
 
 
-# Seguridad:
+# Seguridad:  
 
-# DESCOMENTAR DESPUES DE LA IMPLEMENTACION!!! 
-
-# bcrypt>=4.1,<6          # hash de contraseñas
-# cryptography>=42,<50    # cifrado de datos sensibles (salario, telefono, direccion)
+bcrypt>=4.1,<6          # hash de contraseñas
+cryptography>=42,<50    # cifrado de datos sensibles (salario, telefono, direccion)

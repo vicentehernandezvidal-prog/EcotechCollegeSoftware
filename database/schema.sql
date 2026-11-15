@@ -49,9 +49,9 @@ CREATE TABLE EMPLEADO (
   primer_nombre     VARCHAR(100) NOT NULL,
   primer_apellido   VARCHAR(100) NOT NULL,
   direccion_cifrada VARBINARY(512),
-  telefono_cifrado  VARBINARY(64),
+  telefono_cifrado  VARBINARY(255),
   inicio_contrato   DATE         NOT NULL,
-  salario_cifrado   VARBINARY(64),
+  salario_cifrado   VARBINARY(255),
   FOREIGN KEY (id_usuario)      REFERENCES USUARIO (id_usuario),
   FOREIGN KEY (id_departamento) REFERENCES DEPARTAMENTO (id_departamento)
 );
