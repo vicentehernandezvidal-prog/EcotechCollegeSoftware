@@ -2,7 +2,7 @@
 
 Proyecto académico de consola desarrollado en Python y MySQL. Esta versión traslada las entidades, repositorios y menús del proyecto anterior a una estructura modular y agrega autenticación, validación, manejo de errores y consumo de dos servicios externos.
 
-## Estructura (QUEDA POR ACTUALIZAR)
+## Estructura 
 
 - `entidades/`: clases del dominio y herencia de Usuario.
 - `repositorios/`: operaciones SQL parametrizadas.
@@ -15,6 +15,14 @@ Proyecto académico de consola desarrollado en Python y MySQL. Esta versión tra
 
 - Python 3.10 o superior.
 - MySQL/MariaDB (por ejemplo, XAMPP).
+
+# Librerias 
+- PyMySQL
+- Python dotenv 
+- request 
+- bcrypt
+- cryptography
+
 
 ## Instalación
 
