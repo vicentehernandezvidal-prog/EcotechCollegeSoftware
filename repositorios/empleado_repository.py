@@ -55,3 +55,12 @@ class EmpleadoRepository(BaseRepository):
         sql = "SELECT direccion_cifrada, telefono_cifrado, salario_cifrado FROM EMPLEADO WHERE id_empleado=%s"
         filas = self._ejecutar(sql, (id_empleado,), fetch=True)
         return filas[0] if filas else None
+
+
+    def obtener_salario_cifrado(self, id_empleado):
+        sql = "SELECT salario_cifrado FROM EMPLEADO WHERE id_empleado=%s"
+        filas = self._ejecutar(sql, (id_empleado,), fetch=True)
+        return filas[0][0] if filas else None
+
+
+    

@@ -18,3 +18,13 @@ class Empleado(Usuario):
 
     def autenticar(self, password, password_service):
         return super().autenticar(password, password_service)
+
+    #FUNCION PARA SOLICITAR SALARIO EN OTRAS DIVISAS
+    def obtener_salario_cifrado(self, id_empleado):
+        sql = "SELECT salario_cifrado FROM EMPLEADO WHERE id_empleado=%s"
+        filas = self._ejecutar(sql, (id_empleado,), fetch = True)
+        return filas[0][0] if filas else None
+
+    
+
+

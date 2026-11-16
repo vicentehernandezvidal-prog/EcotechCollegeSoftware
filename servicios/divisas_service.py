@@ -42,3 +42,10 @@ class DivisasService:
         if not valor_venta.is_finite() or valor_venta <= 0:
             raise RuntimeError("El servicio entregó un valor de venta inválido.")
         return monto / valor_venta, valor_venta
+
+
+# PARA MOSTRAR LAS DIVISAS DENTRO DEL MENU DE DATOS SENCIBLES, IMPLEMENTACION  API
+
+    def monedas_disponibles(self, cotizaciones):
+        return sorted({str(c.get("moneda", "")).upper() for c in cotizaciones if c.get("moneda")})
+        

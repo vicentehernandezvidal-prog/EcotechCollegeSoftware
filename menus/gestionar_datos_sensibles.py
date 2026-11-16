@@ -3,6 +3,10 @@ from decimal import Decimal, InvalidOperation
 from repositorios.empleado_repository import EmpleadoRepository
 from seguridad.cifrado_service import CifradoService
 
+# para la API
+from servicios.divisas_service import DivisasService
+from servicios.salario_service import SalarioService
+
 
 def _pedir_datos():
     direccion = input("Dirección: ").strip()
@@ -19,6 +23,32 @@ def _pedir_datos():
         raise ValueError("El salario debe ser mayor que cero y razonable.")
     return direccion, telefono, str(salario)
 
+# FUNCION AUXILIAR
+
+def _consultar_salario(salarios, divisas, id_emp):
+    try:
+        cotizaciones = divisas.consultar()
+    except RuntimeError as error:
+        print(f"[AVISO] {error} Se mostrará solo en CLP.")
+        cotizaciones = []
+
+    monedas = ["CLP"] + divisas.monedas_disponibles(cotizaciones)
+    print("Divisas disponibles:", ", ".join(monedas))
+    moneda = input("¿En qué divisa quieres ver el salario? (Enter = CLP): ").strip().upper() or "CLP"
+    if moneda not in monedas:
+        raise ValueError("Divisa no disponible.")
+
+    resultado = salarios.consultar_salario(id_emp, moneda, cotizaciones)
+    if resultado is None:
+        print("Este empleado no tiene salario registrado.")
+        return
+    monto, tasa = resultado
+    if tasa is None:
+        print(f"Salario: {monto:,.0f} CLP")
+    else:
+        print(f"Salario: {monto:,.2f} {moneda}  (1 {moneda} = {tasa} CLP, cotización de venta)")
+
+
 
 def gestionar_datos_sensibles():
     repo = EmpleadoRepository()
@@ -27,6 +57,11 @@ def gestionar_datos_sensibles():
     except RuntimeError as error:
         print(f"[AVISO] {error}")
         return
+
+    divisas = DivisasService()
+    salarios = SalarioService(repo, cifrado, divisas)
+
+
     while True:
         print("\n--- DATOS SENSIBLES DE EMPLEADOS ---\n1. Registrar/actualizar\n2. Consultar\n3. Volver")
         op = input("> ").strip()
@@ -43,12 +78,24 @@ def gestionar_datos_sensibles():
                     ok = repo.guardar_datos_sensibles(id_emp, cifrado.cifrar(d), cifrado.cifrar(t), cifrado.cifrar(s))
                     print("Datos guardados cifrados." if ok else "No se pudo guardar.")
                 else:
+                    print("¿Qué dato deseas consultar?\n1. Dirección\n2. Teléfono\n3. Salario (elegir divisa)\n4. Todos")
+                    dato = input("> ").strip()
+                    if dato == "3":
+                        _consultar_salario(salarios, divisas, id_emp)
+                        continue
                     fila = repo.obtener_datos_sensibles(id_emp)
                     if not fila or all(c is None for c in fila):
                         print("Este empleado no tiene datos sensibles registrados.")
                         continue
-                    d, t, s = (cifrado.descifrar(c) for c in fila)
-                    print(f"Dirección: {d}\nTeléfono: {t}\nSalario: {s} CLP")
+                    if dato == "1":
+                        print(f"Dirección: {cifrado.descifrar(fila[0])}")
+                    elif dato == "2":
+                        print(f"Teléfono: {cifrado.descifrar(fila[1])}")
+                    elif dato == "4":
+                        d, t, s = (cifrado.descifrar(c) for c in fila)
+                        print(f"Dirección: {d}\nTeléfono: {t}\nSalario: {s} CLP")
+                    else:
+                        print("Opción no válida.")
             elif op == "3":
                 return
             else:
