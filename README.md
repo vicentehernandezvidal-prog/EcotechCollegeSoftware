@@ -13,10 +13,11 @@ Proyecto académico de consola desarrollado en Python y MySQL. Esta versión tra
 
 ## Requisitos
 
+Tecnologias: 
 - Python 3.10 o superior.
 - MySQL/MariaDB (por ejemplo, XAMPP).
 
-# Librerias 
+Librerias: 
 - PyMySQL
 - Python dotenv 
 - request 
