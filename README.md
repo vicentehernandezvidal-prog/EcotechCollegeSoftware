@@ -52,4 +52,3 @@ Ambas consultas usan `requests`, timeout, validación básica y control de error
 
 - `.env` está excluido de Git. 
 - Esta es una base de migración académica. 
-- Los datos sensibles adicionales del empleado tienen columnas preparadas en el esquema, pero esta versión no implementa todavía el cifrado de dirección, teléfono o salario.
