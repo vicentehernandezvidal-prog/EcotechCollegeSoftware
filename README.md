@@ -51,4 +51,4 @@ Ambas consultas usan `requests`, timeout, validación básica y control de error
 ## Consideraciones
 
 - `.env` está excluido de Git. 
-- Esta es una base de migración académica. 
+- Software estrictamente academico 
