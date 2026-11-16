@@ -1,6 +1,7 @@
 from decimal import Decimal, InvalidOperation
 import requests
 
+# api (aplication programming interface) siempre se me olvidan las siglas xdd
 
 class DivisasService:
     # URL pública del servicio externo que entrega las cotizaciones de monedas.
