@@ -1,11 +1,14 @@
 # python version 3.14.6
-# DOCUMENTO MAIN 
 
+# importar todos los recursos 
 from getpass import getpass
+
 from repositorios.usuario_repository import UsuarioRepository
 from repositorios.empleado_repository import EmpleadoRepository
 from repositorios.departamento_repository import DepartamentoRepository
 from servicios.auth_service import AuthService
+
+# Gestion de menus (actualizado, ahora traido desde la ruta \VHERNANDEZ\menus)
 from menus.gestionar_departamentos import gestionar_departamentos
 from menus.gestionar_proyectos import gestionar_proyectos
 from menus.gestionar_registro_tiempo import gestionar_registro_tiempos
@@ -14,7 +17,7 @@ from menus.gestionar_apis import gestionar_apis
 from menus.gestionar_administradores import gestionar_administradores
 from menus.gestionar_datos_sensibles import gestionar_datos_sensibles
 
-
+# funcion inicial, se ejecuta por primera vez cuando NO hay administradores registrados
 def crear_administrador_inicial(auth):
     print("\nNo existen cuentas. Configura el primer administrador.")
     nombre = input("Nombre de usuario: ").strip()
